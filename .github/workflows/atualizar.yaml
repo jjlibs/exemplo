@@ -1,61 +1,62 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+name: atualizar-dados
 
-# Acionador
 on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/6 * * * 0'   # domingo 10:30 em Recife (UTC-3)
   push:
     branches: [main, master]
-  workflow_dispatch:          # Acionar manualmente vi botão no Github
-  #schedule:
-  #  - cron: "*/60 * * * *"     # "Minuto Hora Mês Ano Dia" -> Ver crontab guru
+    paths-ignore:
+      - '.github/workflows/**'
+      - 'README.md'
 
-name: atualizar.yaml
+concurrency:
+  group: atualizar-dados-${{ github.ref }}
+  cancel-in-progress: true
 
-# permissions: read-all
+permissions:
+  contents: write
 
-# O que irá rodar
 jobs:
   atualizar:
-    runs-on: ${{ matrix.config.os }}
-
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+    runs-on: ubuntu-latest
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
         with:
-          r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
+          fetch-depth: 0
+
+      - name: Configurar Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Configurar R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Instalar dependências do projeto
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: atualizar-gato
+      - name: Atualizar dados
         run: Rscript data-raw/atualizar.R
-      - name: commit-results
+
+      - name: Commit e push
         run: |
           git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
+          git config --local user.name "GitHub Actions"
+
           git add -A
-          git commit -m "update cat" || echo "update cat"
-          git push origin || echo "update cat"
+          git diff --cached --quiet && exit 0
+
+          git commit -m "Atualiza dados automaticamente"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
