@@ -20,3 +20,6 @@ httr::GET(
 # usethis::use_github_action()
 
 # usethis::use_readme_rmd()
+
+# No repositório, em Settings > Actions > Workflow Permissions
+# Selecionar: Read and write permissions > Save
