@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Exemplo GHA a cada 6 minutos…
+# Exemplo GHA a cada ~6 minutos.
 
 <!-- badges: start -->
 
@@ -10,5 +10,5 @@
 
 ``` r
 Sys.time()
-#> [1] "2026-03-15 18:46:55 -03"
+#> [1] "2026-03-15 22:01:39 UTC"
 ```
