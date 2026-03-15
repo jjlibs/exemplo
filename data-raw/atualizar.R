@@ -4,6 +4,9 @@
 
 # usethis::use_package("httr")
 
+# Como funcionou, agora o `cron` será desativado
+# para não consumir recursos desnecessariamente.
+
 httr::GET(
   url = "https://cataas.com/cat",
   httr::accept("image.jpg"),
