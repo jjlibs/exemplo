@@ -1,25 +1,14 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
 
 # Exemplo GHA
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/jjlibs/exemplo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jjlibs/exemplo/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-```{r}
+``` r
 Sys.time()
+#> [1] "2026-03-15 18:30:30 -03"
 ```
-
