@@ -2,10 +2,21 @@
 
 # usethis::use_data(atualizar, overwrite = TRUE)
 
+# usethis::use_package("httr")
+
 httr::GET(
   url = "https://cataas.com/cat",
   httr::accept("image.jpg"),
   httr::write_disk("data-raw/gato.jpg", overwrite = TRUE)
 )
 
-usethis::use_github(protocol = "https")
+# git status
+# git add .
+# git commit -m inicial --no-verify
+
+# usethis::use_github(protocol = "https")
+
+# Setup inicial GHA. Em seguida, iremos alterar o template
+# usethis::use_github_action()
+
+# usethis::use_readme_rmd()
