@@ -6,8 +6,8 @@ on:
   push:
     branches: [main, master]
   workflow_dispatch:          # Acionar manualmente vi botão no Github
-  schedule:
-    - cron: "*/5 * * * *"     # "Minuto Hora Mês Ano Dia" -> Ver crontab guru
+  #schedule:
+  #  - cron: "*/60 * * * *"     # "Minuto Hora Mês Ano Dia" -> Ver crontab guru
 
 name: atualizar.yaml
 
