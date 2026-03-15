@@ -3,7 +3,7 @@ name: atualizar-dados
 on:
   workflow_dispatch:
   schedule:
-    - cron: '/6 * * * *'   # domingo 10:30 em Recife (UTC-3)
+    - cron: '*/6 * * * *'   # domingo 10:30 em Recife (UTC-3)
   push:
     branches: [main, master]
     paths-ignore:
